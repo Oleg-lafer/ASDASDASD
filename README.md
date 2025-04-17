@@ -1,170 +1,151 @@
-הנה קובץ `README.md` מושקע ומפורט לפרויקט שלך, כולל תיאור, שימושים, עקרונות עבודה, תלותיות, הוראות הפעלה ועוד. אחריו אוסיף גם את הקובץ `requirements.js` שציינת (אני מניח שהתכוונת לדרישות התלויות בקוד או קובץ דמוי `requirements.txt` אבל עבור JavaScript או במקרה שלנו פשוט רשימת ספריות ותלויות בסביבת C++).
 
 ---
 
-### ✅ `README.md`
+# Fortuna PRNG (Pseudorandom Number Generator) in C++
 
-```markdown
-# Fortuna C++ - Cryptographically Secure PRNG
+## Overview
 
-A **complete implementation of the Fortuna cryptographically secure pseudorandom number generator (PRNG)** in C++, based on the [original Fortuna design by Bruce Schneier and Niels Ferguson](https://www.schneier.com/academic/archives/2002/08/the_fortuna_random.html).
+This project implements the **Fortuna Pseudorandom Number Generator (PRNG)** in C++. Fortuna is a cryptographically secure PRNG designed by Bruce Schneier and colleagues. It combines multiple entropy sources and utilizes AES-256 in Counter mode (AES-CTR) to generate random numbers.
 
-This project demonstrates a modern, efficient, and educational implementation of Fortuna, written in C++ with inline documentation. It uses **OpenSSL** for cryptographic primitives and is structured with clear modular classes for entropy accumulation, secure key management, and AES-CTR-based random generation.
+### Key Features:
+- **Cryptographically secure** random number generation.
+- **AES-256-CTR** for encryption of random data.
+- **SHA-256** for entropy mixing and key re-seeding.
+- **Entropy accumulator**: Collects entropy from multiple sources.
+- **Automatic re-seeding**: Ensures continuous randomness through key updates.
+- **OpenSSL** used for cryptographic operations.
 
----
-
-## 🚀 Features
-
-- 🔐 AES-256 in CTR mode for secure random number generation
-- 🔄 Automatic key rekeying after 1MB output (as per Fortuna spec)
-- 📥 32 entropy pools with adaptive accumulation logic
-- 💾 Persistent seed storage (saved and loaded from file)
-- 🧠 Clear object-oriented design: `EntropyAccumulator`, `SeedManager`, `Generator`, `Fortuna`
-- 🧪 Easy to test and extend with your own entropy sources (e.g., sensors)
+The implementation is based on an original JavaScript version of the Fortuna algorithm, ported into C++ for improved performance and integration with OpenSSL.
 
 ---
 
-## 📁 Project Structure
-
-```
-Fortuna/
-│
-├── Fortuna.cpp           # Main C++ implementation
-├── seed.dat              # Binary file that stores seed state (auto-created)
-├── README.md             # Project documentation
-└── requirements.js       # Dependency list for build
-```
+## Table of Contents
+- [Installation](#installation)
+- [How It Works](#how-it-works)
+- [Usage](#usage)
+- [License](#license)
+- [Credits](#credits)
 
 ---
 
-## 🔧 Dependencies
+## Installation
 
-This project uses the following libraries:
+### Prerequisites
 
-- [OpenSSL](https://www.openssl.org/) (libcrypto)
-  - AES-256 in CTR mode
-  - SHA-256 hashing
-  - Secure random bytes (`RAND_bytes`)
+To compile and run this project, you need:
+- **C++11** or higher.
+- **OpenSSL** (for cryptographic operations like AES and SHA-256).
+- **A C++ compiler** such as `g++`.
 
-> ⚠️ Make sure OpenSSL is installed and linked correctly with your C++ compiler.
+#### 1. Install OpenSSL
 
----
+Before running the project, ensure that OpenSSL is installed on your system.
 
-## 🛠️ Build Instructions
-
-### Linux / macOS (g++)
+For **Ubuntu/Debian**:
 
 ```bash
-g++ Fortuna.cpp -o fortuna -lssl -lcrypto
+sudo apt-get install libssl-dev
 ```
 
-### Windows (MinGW or MSVC)
-
-Make sure OpenSSL is available in your system and linked:
+For **macOS (using Homebrew)**:
 
 ```bash
-g++ Fortuna.cpp -o fortuna.exe -lssl -lcrypto
+brew install openssl
 ```
+
+For **Windows**, you can download the OpenSSL binaries from the [official site](https://slproweb.com/products/Win32OpenSSL.html).
 
 ---
 
-## 📦 Usage Example
+### 2. Clone the Repository
+
+Clone this repository to your local machine:
 
 ```bash
-./fortuna
-```
-
-Console output:
-```
-Generated random data: 4c7e2f9d81a334b6...
-```
-
-You can modify the main function to:
-- Add entropy from sensors or files
-- Generate longer random streams
-- Save and reload state across executions
-
----
-
-## 🔍 Class Overview
-
-| Class               | Responsibility                                       |
-|--------------------|------------------------------------------------------|
-| `EntropyAccumulator` | Stores entropy in 32 pools and creates reseed input |
-| `SeedManager`        | Loads/saves 256-bit seed to `seed.dat` file         |
-| `Generator`          | AES-CTR random block generator with rekeying logic  |
-| `Fortuna`            | Orchestrates entropy, reseeding, and generation     |
-
----
-
-## 📚 Further Reading
-
-- 🔗 [Fortuna Paper (Schneier & Ferguson)](https://www.schneier.com/academic/archives/2002/08/the_fortuna_random.html)
-- 📘 [OpenSSL EVP Manual](https://www.openssl.org/docs/manmaster/man3/EVP_EncryptInit.html)
-- 📎 [AES-CTR Explanation](https://en.wikipedia.org/wiki/Block_cipher_mode_of_operation#Counter_(CTR))
-
----
-
-## ❤️ Credits
-
-- Original design: Bruce Schneier & Niels Ferguson  
-- C++ Implementation: Ported and adapted from JavaScript by [Your Name]
-
----
-
-## 🧪 Coming Soon (Ideas)
-
-- Entropy from hardware sensors (ESP32, Raspberry Pi)
-- Integration with system entropy pool
-- Benchmarking and performance metrics
-- Interface for secure random UUID generation
-
----
-
-## 📜 License
-
-This project is released under the MIT License.  
-Feel free to use, modify, and learn from it freely.
-
----
+git clone https://github.com/yourusername/Fortuna-PRNG.git
+cd Fortuna-PRNG
 ```
 
 ---
 
-### 📦 `requirements.js` (או יותר נכון: Build Requirements)
+### 3. Build the Project
 
-השם מעט מבלבל – ב-C++ נהוג פשוט לציין את הדרישות בתוך README או ב־CMakeLists.txt אם משתמשים ב־CMake. אבל הנה גרסה פשוטה של `requirements.js` בסגנון אינפורמטיבי בלבד:
+Use the `Makefile` to build the project:
 
-```js
-// This is a documentation-style file for the required dependencies
-// for the Fortuna C++ PRNG project
+```bash
+make
+```
 
-module.exports = {
-  name: "Fortuna C++",
-  language: "C++",
-  requiredLibraries: [
-    {
-      name: "OpenSSL",
-      includes: ["openssl/evp.h", "openssl/rand.h", "openssl/sha.h"],
-      description: "Used for AES-256-CTR encryption, SHA-256 hashing, and random byte generation.",
-      install: "sudo apt install libssl-dev"
-    },
-    {
-      name: "C++17 Standard",
-      features: ["std::vector", "std::array", "fstream", "cstring"],
-      description: "Standard library features used in the project"
-    }
-  ],
-  optional: [
-    {
-      name: "CMake",
-      description: "For cross-platform building and configuration",
-      install: "sudo apt install cmake"
-    }
-  ]
+This will compile the project and generate an executable named `fortuna`.
+
+---
+
+## How It Works
+
+### 1. **Entropy Accumulation**
+
+Fortuna relies on entropy from external sources (such as hardware randomness, user input, etc.) to generate its random numbers. The entropy is accumulated into multiple pools. When enough entropy is gathered, it is mixed using the `SHA-256` hashing algorithm.
+
+### 2. **Key Generation**
+
+The PRNG is seeded with a 256-bit initial key. If this key is not found, a new one is generated using OpenSSL’s `RAND_bytes` function and saved to a file (`seed.dat`).
+
+### 3. **Random Data Generation**
+
+The `Generator` class uses AES-256 in CTR mode to generate pseudorandom data. A counter is incremented with every block of data generated, and the output is XORed with the encrypted counter block to produce the random values.
+
+### 4. **Re-seeding**
+
+Periodically, the key is re-seeded using new entropy. When the data limit is reached, a rekey operation is triggered by hashing the current key with `SHA-256` to prevent predictability and maintain randomness.
+
+---
+
+## Usage
+
+Once the project is compiled, you can run it by executing the following command:
+
+```bash
+make run
+```
+
+This will trigger a simple test, where the system will:
+- Collect some entropy manually (you can modify this part to use real entropy sources).
+- Reseed the Fortuna generator.
+- Generate 32 bytes of random data.
+
+The random data will be printed in hexadecimal format, for example:
+
+```
+Generated random data: 3f85a279f8b3b27f7c23298c9e5ffabf4e8c3a80db4b1e03a0df98c242d1c5fa
+```
+
+---
+
+## Advanced Usage
+
+You can also directly interact with the `Fortuna` class to perform operations like adding entropy, reseeding, and generating random bytes.
+
+Example:
+
+```cpp
+Fortuna fortuna;
+
+// Adding entropy manually
+std::vector<uint8_t> testEntropy = {0x01, 0x02, 0x03, 0x04};
+fortuna.getAccumulator().addEntropy(testEntropy);
+
+// Reseeding and generating random bytes
+fortuna.reseed();
+auto randomData = fortuna.getRandomBytes(64);
+
+std::cout << "Generated 64 bytes of random data: ";
+for (uint8_t byte : randomData) {
+    printf("%02x", byte);
 }
+std::cout << std::endl;
 ```
+
+This code demonstrates how to add entropy, reseed the generator, and retrieve a specific number of random bytes.
 
 ---
 
-רוצה שאבנה גם `CMakeLists.txt` כדי שתוכל לבנות את הפרויקט בפשטות בכל מערכת הפעלה?
