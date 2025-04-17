@@ -7,7 +7,7 @@
 
 This project implements the **Fortuna Pseudorandom Number Generator (PRNG)** in C++. Fortuna is a cryptographically secure PRNG designed by Bruce Schneier and colleagues. It combines multiple entropy sources and utilizes AES-256 in Counter mode (AES-CTR) to generate random numbers.
 
-[Fortuna Pseudorandom Number Generator (js demo)](https://www.youtube.com/watch?v=wMo0AlM8-xU)
+[Video: Fortuna Pseudorandom Number Generator (js demo)](https://www.youtube.com/watch?v=wMo0AlM8-xU)
 
 <a href="https://www.youtube.com/watch?v=wMo0AlM8-xU">
   <img src="Thumbnail.PNG" width="33%" alt="Video Thumbnail">
