@@ -1,7 +1,7 @@
 
 ---
 
-# Fortuna PRNG (Pseudorandom Number Generator) in C++
+# Fortuna PRNG (Pseudorandom Number Generator)
 
 ## Overview
 
